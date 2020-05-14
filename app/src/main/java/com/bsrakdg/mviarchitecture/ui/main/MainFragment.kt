@@ -1,8 +1,9 @@
-package com.bsrakdg.mviarchitecture
+package com.bsrakdg.mviarchitecture.ui.main
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.bsrakdg.mviarchitecture.R
 
 class MainFragment : Fragment() {
 

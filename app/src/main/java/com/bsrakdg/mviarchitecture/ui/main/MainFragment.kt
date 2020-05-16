@@ -47,6 +47,8 @@ class MainFragment : Fragment() {
     }
 
     private fun subscribeObservers() {
+
+        // Get data from repository and update viewmodel data
         viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             println("DEBUG : DataState: $dataState")
             dataState.blogPosts?.let { blogPosts ->
@@ -60,6 +62,7 @@ class MainFragment : Fragment() {
             }
         })
 
+        // update UI
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
             viewState.blogPosts?.let {
                 // Show blogs data

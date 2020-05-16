@@ -13,12 +13,12 @@ import com.bsrakdg.mviarchitecture.util.AbsentLiveData
 class MainViewModel : ViewModel() {
 
     private val _stateEvent: MutableLiveData<MainStateEvent> = MutableLiveData()
-    private val _viewState: MutableLiveData<MainViewState> = MutableLiveData()
+    private val _viewState: MutableLiveData<MainViewState> = MutableLiveData() // UI
 
     val viewState: LiveData<MainViewState>
         get() = _viewState
 
-    // Listen state event changes and handle it
+    // Listen state event changes and handle it (access repository)
     val dataState: LiveData<MainViewState> = Transformations.switchMap(_stateEvent) { stateEvent ->
         stateEvent?.let {
             handleStateEvent(it)

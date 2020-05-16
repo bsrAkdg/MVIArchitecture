@@ -1,5 +1,6 @@
 package com.bsrakdg.mviarchitecture.network
 
+import com.bsrakdg.mviarchitecture.util.LiveDataCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,6 +11,7 @@ object CustomRetrofitBuilder {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
 
     }
 

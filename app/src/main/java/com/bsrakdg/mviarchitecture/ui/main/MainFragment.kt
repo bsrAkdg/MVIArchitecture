@@ -52,6 +52,7 @@ class MainFragment : Fragment() {
         viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             println("DEBUG : DataState: $dataState")
 
+            // Handle Data<T>
             dataState.data?.let {
                 it.blogPosts?.let { blogPosts ->
                     // Set BlogPost data
@@ -62,6 +63,16 @@ class MainFragment : Fragment() {
                     // Set User data
                     viewModel.setUser(user)
                 }
+            }
+
+            // Handle Error
+            dataState.message?.let {
+
+            }
+
+            // Handle Loading
+            dataState.loading.let {
+
             }
 
         })

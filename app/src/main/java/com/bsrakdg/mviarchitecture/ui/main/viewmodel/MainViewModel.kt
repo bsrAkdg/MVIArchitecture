@@ -10,6 +10,7 @@ import com.bsrakdg.mviarchitecture.repository.Repository
 import com.bsrakdg.mviarchitecture.ui.main.state.MainStateEvent
 import com.bsrakdg.mviarchitecture.ui.main.state.MainViewState
 import com.bsrakdg.mviarchitecture.util.AbsentLiveData
+import com.bsrakdg.mviarchitecture.util.DataState
 
 class MainViewModel : ViewModel() {
 
@@ -20,13 +21,14 @@ class MainViewModel : ViewModel() {
         get() = _viewState
 
     // Listen state event changes and handle it (access repository)
-    val dataState: LiveData<MainViewState> = Transformations.switchMap(_stateEvent) { stateEvent ->
-        stateEvent?.let {
-            handleStateEvent(it)
+    val dataState: LiveData<DataState<MainViewState>> =
+        Transformations.switchMap(_stateEvent) { stateEvent ->
+            stateEvent?.let {
+                handleStateEvent(it)
+            }
         }
-    }
 
-    private fun handleStateEvent(stateEvent: MainStateEvent): LiveData<MainViewState> {
+    private fun handleStateEvent(stateEvent: MainStateEvent): LiveData<DataState<MainViewState>> {
         return when (stateEvent) {
             is MainStateEvent.GetBlogPostsEvent -> {
                 return Repository.getBlogPosts()

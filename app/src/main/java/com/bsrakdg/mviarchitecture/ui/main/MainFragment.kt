@@ -51,15 +51,19 @@ class MainFragment : Fragment() {
         // Get data from repository and update viewmodel data
         viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             println("DEBUG : DataState: $dataState")
-            dataState.blogPosts?.let { blogPosts ->
-                // Set BlogPost data
-                viewModel.setBlogListData(blogPosts)
+
+            dataState.data?.let {
+                it.blogPosts?.let { blogPosts ->
+                    // Set BlogPost data
+                    viewModel.setBlogListData(blogPosts)
+                }
+
+                it.user?.let { user ->
+                    // Set User data
+                    viewModel.setUser(user)
+                }
             }
 
-            dataState.user?.let { user ->
-                // Set User data
-                viewModel.setUser(user)
-            }
         })
 
         // update UI

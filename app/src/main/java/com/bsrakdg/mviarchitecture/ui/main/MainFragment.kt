@@ -60,17 +60,18 @@ class MainFragment : Fragment() {
             dataStateHandler.onDataStateChange(dataState)
 
             // Handle Data<T>
-            dataState.data?.let {
-                it.blogPosts?.let { blogPosts ->
-                    // Set BlogPost data
-                    viewModel.setBlogListData(blogPosts)
-                }
+            dataState.data?.let { event ->
+                event.getContentIfNotHandled()?.let { mainViewState ->
+                    mainViewState.blogPosts?.let { blogPosts ->
+                        // Set BlogPost data
+                        viewModel.setBlogListData(blogPosts)
+                    }
 
-                it.user?.let { user ->
-                    // Set User data
-                    viewModel.setUser(user)
+                    mainViewState.user?.let { user ->
+                        // Set User data
+                        viewModel.setUser(user)
+                    }
                 }
-
             }
 
             // Handle Error

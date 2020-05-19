@@ -1,0 +1,19 @@
+
+MVI Architecture Notes
+
+- MVI is a Event driven architecture. In this example, on the menu when you clicked get user item,
+you fire a get user event in ViewModel. ViewModel handles it and send call according method in
+repository layer.
+
+- Every ViewModel has unique all of them :
+    - MainViewState : unique data
+    - MainStateEvent : unique event
+    - unique ViewModel
+    - unique Repository
+
+-  Fragment observe LiveData on ViewModel
+    -> action (set new action event from Fragment to ViewModel)
+        -> ViewModel handle it (observe event changes)
+            -> ViewModel receives data from Repository and notify Fragment
+                -> Fragment handle and update data ViewModel (observe updated data on Fragment)
+                    -> Fragment update UI from updated data (If you want you can send data to Activity with listeners)

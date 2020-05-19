@@ -12,57 +12,62 @@ import com.bsrakdg.mviarchitecture.ui.main.state.MainViewState
 import com.bsrakdg.mviarchitecture.util.AbsentLiveData
 import com.bsrakdg.mviarchitecture.util.DataState
 
-class MainViewModel : ViewModel() {
+class MainViewModel : ViewModel(){
 
     private val _stateEvent: MutableLiveData<MainStateEvent> = MutableLiveData()
-    private val _viewState: MutableLiveData<MainViewState> = MutableLiveData() // UI
+    private val _viewState: MutableLiveData<MainViewState> = MutableLiveData()
 
     val viewState: LiveData<MainViewState>
         get() = _viewState
 
-    // Listen state event changes and handle it (access repository)
-    val dataState: LiveData<DataState<MainViewState>> =
-        Transformations.switchMap(_stateEvent) { stateEvent ->
+
+    val dataState: LiveData<DataState<MainViewState>> = Transformations
+        .switchMap(_stateEvent){stateEvent ->
             stateEvent?.let {
-                handleStateEvent(it)
+                handleStateEvent(stateEvent)
             }
         }
 
-    private fun handleStateEvent(stateEvent: MainStateEvent): LiveData<DataState<MainViewState>> {
-        return when (stateEvent) {
+    fun handleStateEvent(stateEvent: MainStateEvent): LiveData<DataState<MainViewState>>{
+        println("DEBUG: New StateEvent detected: $stateEvent")
+        when(stateEvent){
+
             is MainStateEvent.GetBlogPostsEvent -> {
                 return Repository.getBlogPosts()
             }
 
             is MainStateEvent.GetUserEvent -> {
                 return Repository.getUser(stateEvent.userId)
-
             }
-            is MainStateEvent.None -> {
-                AbsentLiveData.create()
+
+            is MainStateEvent.None ->{
+                return AbsentLiveData.create()
             }
         }
     }
 
-    fun setBlogListData(blogPosts: List<BlogPost>) {
+    fun setBlogListData(blogPosts: List<BlogPost>){
         val update = getCurrentViewStateOrNew()
         update.blogPosts = blogPosts
         _viewState.value = update
     }
 
-    fun setUser(user: User) {
+    fun setUser(user: User){
         val update = getCurrentViewStateOrNew()
         update.user = user
         _viewState.value = update
     }
 
-    private fun getCurrentViewStateOrNew(): MainViewState {
-        return viewState.value?.let {
+    fun getCurrentViewStateOrNew(): MainViewState {
+        val value = viewState.value?.let{
             it
-        } ?: MainViewState()
+        }?: MainViewState()
+        return value
     }
 
-    fun setStateEvent(event: MainStateEvent) {
-        _stateEvent.value = event
+    fun setStateEvent(event: MainStateEvent){
+        val state: MainStateEvent
+        state = event
+        _stateEvent.value = state
     }
 }

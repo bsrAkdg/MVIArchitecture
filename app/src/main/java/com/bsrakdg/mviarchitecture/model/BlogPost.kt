@@ -23,4 +23,8 @@ class BlogPost(
     override fun toString(): String {
         return "BlogPost(pk=$pk, title=$title, body=$body, image=$image)"
     }
+
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other)
+    }
 }

@@ -36,7 +36,7 @@ object Repository {
             }
 
             override fun handleApiSuccessResponse(response: ApiSuccessResponse<User>) {
-                result.value = DataState(
+                result.value = DataState.data(
                     message = null,
                     data = MainViewState(
                         user = response.body

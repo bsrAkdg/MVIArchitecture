@@ -9,11 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bsrakdg.mviarchitecture.R
 import com.bsrakdg.mviarchitecture.model.BlogPost
+import com.bsrakdg.mviarchitecture.model.User
 import com.bsrakdg.mviarchitecture.ui.DataStateListener
 import com.bsrakdg.mviarchitecture.ui.main.state.MainStateEvent.GetBlogPostsEvent
 import com.bsrakdg.mviarchitecture.ui.main.state.MainStateEvent.GetUserEvent
 import com.bsrakdg.mviarchitecture.ui.main.viewmodel.MainViewModel
 import com.bsrakdg.mviarchitecture.util.TopSpacingItemDecoration
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment(), BlogListAdapter.Interaction {
@@ -113,8 +115,20 @@ class MainFragment : Fragment(), BlogListAdapter.Interaction {
             viewState.user?.let {
                 // Show user data
                 println("DEBUG : Setting user data $viewState")
+                setUserProperties(it)
             }
         })
+    }
+
+    private fun setUserProperties(user: User) {
+        email.text = user.email
+        username.text = user.username
+
+        view?.let {
+            Glide.with(it.context)
+                .load(user.image)
+                .into(image)
+        }
     }
 
     private fun triggerUserEvent() {
